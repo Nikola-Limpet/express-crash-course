@@ -4,12 +4,12 @@ import jwt from 'jsonwebtoken';
 export const createJWT = (user) => {
   const token = jwt.sign({id: user.id, username: user.username},
     process.env.JWT_SECRET,
-    {expiresIn: '1d'}
+    // {expiresIn: '1d'}
   ) // 1 day  
   return token
 }
 
-export const protect = (req, res) =>{
+export const protect = (req, res, next) =>{
   const bearer = req.headers.authorization;
    // Bearer token is basically a token that is sent in the header of the request
 
@@ -25,5 +25,19 @@ export const protect = (req, res) =>{
      res.status(401)
      res.json({msg : 'Not valid token'})
      return 
+   }
+
+
+   try {
+    const user = jwt.verify(token, process.env.JWT_SECRET);
+    
+    req.user = user;
+    next()
+    
+   } catch (error) {
+      console.log(error)
+      res.status(401)
+      res.json({msg : 'Token expired'})
+      return  
    }
 }
