@@ -1,4 +1,17 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
+
+export const comparePassword = (password, hash) => {
+  const match =  bcrypt.compare(password, hash);
+  return match
+}
+
+export const hashPassword = (password) => { 
+  const hash =  bcrypt.hash(password, 10);
+  // salt rounds is 10. it uses 2^10 rounds of hashing to hash the password
+  return hash
+}
 
 
 export const createJWT = (user) => {
@@ -37,7 +50,7 @@ export const protect = (req, res, next) =>{
    } catch (error) {
       console.log(error)
       res.status(401)
-      res.json({msg : 'Token expired'})
+      res.json({msg : 'not valid token'})
       return  
    }
 }
