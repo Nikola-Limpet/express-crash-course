@@ -2,6 +2,7 @@ import express from 'express'
 import router from './router';
 import morgan from 'morgan'
 import cors from 'cors'
+import { protect } from './modules/auth';
 
 const app = express();
 
@@ -19,7 +20,8 @@ app.get('/', (req, res) => {
   res.json({msg : 'hello'})
 })
 
-app.use('/api', router)  // http://localhost:3000/api
+
+app.use('/api', protect, router)  // http://localhost:3001/api
 
 
 
