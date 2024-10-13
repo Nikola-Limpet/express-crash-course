@@ -10,7 +10,7 @@ const app = express();
 app.use(cors()) // middleware for cors
 app.use(morgan('dev')) // middleware for logging
 app.use(express.json()) // middleware for parsing json
-app.use(express.urlencoded({extended: true})) // middleware for parsing urlencoded
+// app.use(express.urlencoded({extended: true})) // middleware for parsing urlencoded
 
 
 

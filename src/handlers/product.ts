@@ -59,11 +59,17 @@ export const updateProduct = async (req, res) => {
 // delete a product
 
 export const deleteProduct = async (req, res) => {
+  try {
   const deletedProduct = await prisma.product.delete({
     where: {
       id: req.params.id,
       belongsToId: req.user.id // this is to make sure that the user can only delete their own product
     }
   })
+  res.status(200)
   res.json({data : deletedProduct})
+  } catch (error) {
+    res.status(403)
+    res.json({error : 'error deleting product'})
+  }
 }
