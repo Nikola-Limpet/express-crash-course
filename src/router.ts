@@ -2,6 +2,9 @@ import { Router } from 'express';
 import { body, check, oneOf } from 'express-validator';
 import { handleInputError } from './modules/middleware';
 import { createProduct, getProducts, getOneProduct, updateProduct, deleteProduct } from './handlers/product';
+import { getUpdates, getOneUpdate, updateUpdate, createUpdate, deleteUpdate } from './handlers/update';
+import { create } from 'domain';
+
 
 const router = Router();
 
@@ -25,13 +28,8 @@ router.delete('/product/:id', deleteProduct);
 /**
  * Update
  */
-router.get('/update', (req, res) => {
-  res.send('Update endpoint');
-});
-router.get('/update/:id', (req, res) => {
-  const id = req.params.id;
-  res.send(`Update endpoint for ID: ${id}`);
-});
+router.get('/update', getUpdates);
+router.get('/update/:id', getOneUpdate);
 router.put('/update/:id', 
   body('title').optional(),
   body('body').optional(), 
@@ -42,24 +40,16 @@ router.put('/update/:id',
   ]),
   body('version').optional(),
   handleInputError,
-  (req, res) => {
-    // Perform the update logic here
-    res.send(`Updated item with ID: ${req.params.id}`);
-  }
+  updateUpdate
 );
 router.post('/update', 
   body('title').exists().optional(),
   body('body').exists().optional(), 
+  body('productId').exists().isString(),
   handleInputError,
-  (req, res) => {
-    // Perform the create logic here
-    res.send('Created update');
-  }
+  createUpdate
 );
-router.delete('/update/:id', (req, res) => {
-  // Perform the delete logic here
-  res.send(`Deleted update with ID: ${req.params.id}`);
-});
+router.delete('/update/:id', deleteUpdate);
 
 /**
  * Update Point 
