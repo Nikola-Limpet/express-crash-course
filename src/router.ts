@@ -3,7 +3,7 @@ import { body, check, oneOf } from 'express-validator';
 import { handleInputError } from './modules/middleware';
 import { createProduct, getProducts, getOneProduct, updateProduct, deleteProduct } from './handlers/product';
 import { getUpdates, getOneUpdate, updateUpdate, createUpdate, deleteUpdate } from './handlers/update';
-import { create } from 'domain';
+
 
 
 const router = Router();
